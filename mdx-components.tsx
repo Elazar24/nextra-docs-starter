@@ -1,5 +1,6 @@
 import { useMDXComponents as getThemeComponents } from 'nextra-theme-docs';
 import { Callout, FileTree } from 'nextra/components';
+import { ImageWithCaption } from './components/ImageWithCaption';
 
 // Get the default MDX components
 const themeComponents = getThemeComponents();
@@ -10,5 +11,6 @@ export function useMDXComponents() {
     ...themeComponents,
     Callout: Callout,
     FileTree: FileTree,
+    ImageWithCaption: ImageWithCaption,
   };
 }
