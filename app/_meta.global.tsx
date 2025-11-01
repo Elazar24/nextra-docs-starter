@@ -1,53 +1,61 @@
-import {MetaRecord} from "nextra";
+import { MetaRecord } from 'nextra';
 
 const DOCS_ITEMS: MetaRecord = {
-    index: '',
-    navigation: '',
-    tips: '',
-}
-
+  index: '',
+  navigation: '',
+  tips: '',
+};
 
 export default {
-    index: {
-        type: 'page',
-        theme: {
-            layout: 'full',
-            toc: false,
-            timestamp: false,
-        }
+  index: {
+    type: 'page',
+    theme: {
+      layout: 'full',
+      toc: false,
+      timestamp: false,
     },
-    docs: {
-        type: 'page',
-        title: 'Documentation',
-        items: DOCS_ITEMS
+  },
+  notes: {
+    title: 'Notes',
+    type: 'menu',
+    items: {
+      year1: {
+        title: 'Year 1',
+        href: '/notes/year1',
+      },
+      year2: {
+        title: 'Year 2',
+        href: '/notes/year2',
+      },
+      year3: {
+        title: 'Year 3',
+        href: '/notes/year3',
+      },
+      year4: {
+        title: 'Year 4',
+        href: '/notes/year4',
+      },
     },
-    article: {
-        type: 'page',
-        theme: {
-            toc: false,
-            typesetting: 'article',
-        }
+  },
+  docs: {
+    type: 'page',
+    title: 'Documentation',
+    items: DOCS_ITEMS,
+  },
+
+  article: {
+    type: 'page',
+    theme: {
+      toc: false,
+      typesetting: 'article',
     },
-    contact: {
-        type: 'page',
-        theme: {
-            layout: 'full',
-            toc: false,
-            timestamp: false,
-        }
+  },
+  contact: {
+    type: 'page',
+    theme: {
+      layout: 'full',
+      toc: false,
+      timestamp: false,
     },
-    nextraStarter: {
-        title: 'Starter Templates',
-        type: 'menu',
-        items: {
-            docs: {
-                title: 'Docs Starter repo',
-                href: 'https://github.com/phucbm/nextra-docs-starter',
-            },
-            blog: {
-                title: 'Blog Starter repo',
-                href: 'https://github.com/phucbm/nextra-blog-starter'
-            }
-        }
-    },
-}
+  },
+};

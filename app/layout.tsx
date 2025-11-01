@@ -1,51 +1,59 @@
-import {Footer, Layout, Navbar} from 'nextra-theme-docs'
-import {Head} from 'nextra/components'
-import {getPageMap} from 'nextra/page-map'
-import './globals.css'
-import {Metadata} from "next";
+import { Footer, Layout, Link, Navbar } from 'nextra-theme-docs';
+import { Banner, Head } from 'nextra/components';
+import { getPageMap } from 'nextra/page-map';
+import './globals.css';
+import { Metadata } from 'next';
+import Image from 'next/image';
 
 export const metadata: Metadata = {
-    // Define your metadata here
-    // For more information on metadata API, see: https://nextjs.org/docs/app/building-your-application/optimizing/metadata
-}
+  // Define your metadata here
+  // For more information on metadata API, see: https://nextjs.org/docs/app/building-your-application/optimizing/metadata
+};
 
-// const banner = <Banner storageKey="some-key">This template was created with 🩸 and 💦 by <Link href="https://github.com/phucbm">PHUCBM</Link> 🐧</Banner>
+const banner = (
+  <Banner storageKey='some-key'>
+    This project was & is created by <Link href='https://github.com/Elazar24'>Elazar</Link>🫡{' '}
+  </Banner>
+);
+
 const navbar = (
-    <Navbar
-        logo={<img src="/images/general/logo.svg" alt="Logo" width={100} height={20}/>}
-        // ... Your additional navbar options
-    />
-)
-const footer = <Footer>MIT {new Date().getFullYear()} © Nextra.</Footer>
+  <Navbar
+    logo={<Image src='/images/general/logo.svg' alt='Logo' width={100} height={20} />}
+    // ... Your additional navbar options
+  />
+);
+const footer = <Footer>MIT {new Date().getFullYear()} © Nextra.</Footer>;
 
-export default async function RootLayout({children}) {
-    return (
-        <html
-            // Not required, but good for SEO
-            lang="en"
-            // Required to be set
-            dir="ltr"
-            // Suggested by `next-themes` package https://github.com/pacocoursey/next-themes#with-app
-            suppressHydrationWarning
-        >
-        <Head
-            // ... Your additional head options
-        >
-            <link rel="shortcut icon" href="/images/general/icon.svg"/>
-            {/* Your additional tags should be passed as `children` of `<Head>` element */}
-        </Head>
-        <body>
+export default async function RootLayout({ children }) {
+  return (
+    <html
+      // Not required, but good for SEO
+      lang='en'
+      // Required to be set
+      dir='ltr'
+      // Suggested by `next-themes` package https://github.com/pacocoursey/next-themes#with-app
+      suppressHydrationWarning
+    >
+      <Head
+        // ... Your additional head options
+        backgroundColor={{ dark: '#353839', light: '#FFFAFA' }} // Onyx and snow white
+        // color={{ hue: 218, saturation: 80, lightness: 56 }} // Cornflower blue
+      >
+        <link rel='shortcut icon' href='/images/general/icon.svg' />
+        {/* Your additional tags should be passed as `children` of `<Head>` element */}
+      </Head>
+      <body>
         <Layout
-            // banner={banner}
-            navbar={navbar}
-            pageMap={await getPageMap()}
-            docsRepositoryBase="https://github.com/phucbm/nextra-docs-starter/tree/main"
-            footer={footer}
-            // ... Your additional layout options
+          banner={banner}
+          navbar={navbar}
+          pageMap={await getPageMap()}
+          docsRepositoryBase='https://github.com/phucbm/nextra-docs-starter/tree/main'
+          footer={footer}
+          // ... Your additional layout options
         >
-            {children}
+          {children}
         </Layout>
-        </body>
-        </html>
-    )
+      </body>
+    </html>
+  );
 }
