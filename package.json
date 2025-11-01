@@ -1,23 +1,15 @@
 {
-  "name": "nextra-docs-starter",
+  "name": "physics-docs",
   "version": "1.0.0",
-  "description": "Nextra docs starter with search included.",
+  "description": "Physics notes in documentation format built with Nextra.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind"
   },
-  "repository": {
-    "type": "module",
-    "url": "https://github.com/phucbm/nextra-docs-starter"
-  },
-  "author": "PHUCBM",
+  "author": "Elazar",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/phucbm/nextra-docs-starter/issues"
-  },
-  "homepage": "https://github.com/phucbm/nextra-docs-starter#readme",
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.16",
     "next": "^16.0.1",
