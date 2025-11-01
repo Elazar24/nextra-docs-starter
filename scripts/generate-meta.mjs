@@ -1,7 +1,7 @@
-import fs from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
 
-// This script generates _meta.json files for each year directory in the notes folder.
+// This script generates _meta.json files for each directory in the notes folder.
 // This allows for dynamic sidebar navigation in Nextra.
 
 // Get the absolute path to the notes directory.
@@ -12,9 +12,9 @@ const notesDir = path.join(process.cwd(), 'content', 'notes');
  * @param {string} filePath - The absolute path to the MDX file.
  * @returns {string|null} The title of the page, or null if not found.
  */
-function getTitleFromMdx(filePath) {
+async function getTitleFromMdx(filePath) {
   try {
-    const content = fs.readFileSync(filePath, 'utf-8');
+    const content = await fs.readFile(filePath, 'utf-8');
     // Use a regular expression to find the title in the frontmatter.
     const match = content.match(/^---\s*\ntitle:\s*['|"](.*)['|"]\n---\s*/s); // e.g. ---\ntitle: 'My Title'\n---
     if (match && match[1]) {
@@ -22,55 +22,79 @@ function getTitleFromMdx(filePath) {
     }
     return null;
   } catch (error) {
+    // It's okay if the file doesn't exist or has no title.
+    if (error.code === 'ENOENT') {
+      return null;
+    }
     console.error(`Error reading file: ${filePath}`, error);
     return null;
   }
 }
 
-// Read the notes directory.
-fs.readdir(notesDir, { withFileTypes: true }, (err, dirents) => {
-  if (err) {
-    console.error('Error reading notes directory:', err);
-    return;
-  }
+/**
+ * Generates a title from a slug.
+ * @param {string} slug - The slug to generate a title from.
+ * @returns {string} The generated title.
+ */
+function generateTitleFromSlug(slug) {
+  return slug
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, l => l.toUpperCase());
+}
 
-  // Iterate over each item in the notes directory.
-  dirents.forEach(dirent => {
-    // Process only directories (e.g., year1, year2).
-    if (dirent.isDirectory()) {
-      const yearDir = path.join(notesDir, dirent.name);
-      const meta = {};
+/**
+ * Recursively generates _meta.json files for a given directory.
+ * @param {string} dir - The directory to process.
+ */
+async function generateMeta(dir) {
+  try {
+    const dirents = await fs.readdir(dir, { withFileTypes: true });
+    const meta = {};
 
-      // Read the contents of the year directory.
-      fs.readdir(yearDir, { withFileTypes: true }, (err, moduleDirents) => {
-        if (err) {
-          console.error(`Error reading year directory: ${yearDir}`, err);
-          return;
-        }
-
-        // Iterate over each item in the year directory.
-        moduleDirents.forEach(moduleDirent => {
-          // Process only MDX files.
-          if (moduleDirent.isFile() && moduleDirent.name.endsWith('.mdx')) {
-            const modulePath = path.join(yearDir, moduleDirent.name);
-            const title = getTitleFromMdx(modulePath);
-            const slug = moduleDirent.name.replace(/\.mdx$/, ''); // Remove .mdx extension
-            
-            // Use the title from frontmatter, or generate a title from the slug.
-            meta[slug] = title || slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-          }
-        });
-
-        // Write the generated metadata to the _meta.json file.
-        const metaPath = path.join(yearDir, '_meta.json');
-        fs.writeFile(metaPath, JSON.stringify(meta, null, 2), err => {
-          if (err) {
-            console.error(`Error writing _meta.json for ${dirent.name}:`, err);
-          } else {
-            console.log(`Successfully generated _meta.json for ${dirent.name}`);
-          }
-        });
-      });
+    for (const dirent of dirents) {
+      const direntPath = path.join(dir, dirent.name);
+      if (dirent.isDirectory()) {
+        // This is a module directory, recursively generate its meta.
+        await generateMeta(direntPath);
+        // Then, add the directory to the parent's meta.
+        const title = generateTitleFromSlug(dirent.name);
+        meta[dirent.name] = {
+          title: title,
+          type: 'folder',
+        };
+      } else if (dirent.isFile() && dirent.name.endsWith('.mdx')) {
+        // This is a chapter or a module file.
+        const slug = dirent.name.replace(/\.mdx$/, '');
+        const title = await getTitleFromMdx(direntPath);
+        meta[slug] = title || generateTitleFromSlug(slug);
+      }
     }
-  });
-});
+
+    // Write the generated metadata to the _meta.json file.
+    if (Object.keys(meta).length > 0) {
+      const metaPath = path.join(dir, '_meta.json');
+      await fs.writeFile(metaPath, JSON.stringify(meta, null, 2));
+      console.log(`Successfully generated _meta.json for ${dir}`);
+    }
+  } catch (error) {
+    console.error(`Error processing directory: ${dir}`, error);
+  }
+}
+
+/**
+ * Starts the meta generation process for all year directories.
+ */
+async function main() {
+  try {
+    const yearDirents = await fs.readdir(notesDir, { withFileTypes: true });
+    for (const yearDirent of yearDirents) {
+      if (yearDirent.isDirectory()) {
+        await generateMeta(path.join(notesDir, yearDirent.name));
+      }
+    }
+  } catch (error) {
+    console.error('Error reading notes directory:', error);
+  }
+}
+
+main();

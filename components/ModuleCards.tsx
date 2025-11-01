@@ -22,7 +22,7 @@ export function ModuleCards({ year }: { year: string }) {
             child.frontMatter?.title ||
             child.name.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
           }
-          href={child.route}
+          href={child.children ? `${child.route}/introduction` : child.route}
         />
       ))}
     </Cards>

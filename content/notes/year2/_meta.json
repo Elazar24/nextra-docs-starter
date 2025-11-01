@@ -1,7 +1,19 @@
 {
-  "electricity-and-magnetism": "Electricity And Magnetism",
+  "electricity-and-magnetism": {
+    "title": "Electricity And Magnetism",
+    "type": "folder"
+  },
   "index": "Index",
-  "mathematical-methods-for-theoretical-physics": "Mathematical Methods For Theoretical Physics",
-  "mathematical-methods-iii": "Mathematical Methods Iii",
-  "quantum-physics": "Quantum Physics"
+  "mathematical-methods-for-theoretical-physics": {
+    "title": "Mathematical Methods For Theoretical Physics",
+    "type": "folder"
+  },
+  "mathematical-methods-iii": {
+    "title": "Mathematical Methods Iii",
+    "type": "folder"
+  },
+  "quantum-physics": {
+    "title": "Quantum Physics",
+    "type": "folder"
+  }
 }

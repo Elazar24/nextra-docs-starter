@@ -1,12 +1,39 @@
 {
-  "atoms-stars-and-the-universe": "Atoms Stars And The Universe",
-  "classical-mechanics": "Classical Mechanics",
-  "computing-for-mathematical-physics": "Computing For Mathematical Physics",
-  "developing-effective-communication": "Developing Effective Communication",
+  "atoms-stars-and-the-universe": {
+    "title": "Atoms Stars And The Universe",
+    "type": "folder"
+  },
+  "classical-mechanics": {
+    "title": "Classical Mechanics",
+    "type": "folder"
+  },
+  "computing-for-mathematical-physics": {
+    "title": "Computing For Mathematical Physics",
+    "type": "folder"
+  },
+  "developing-effective-communication": {
+    "title": "Developing Effective Communication",
+    "type": "folder"
+  },
   "index": "Index",
-  "mathematical-methods-i": "Mathematical Methods I",
-  "mathematical-methods-ii": "Mathematical Methods Ii",
-  "practical-physics-and-computing-i": "Practical Physics And Computing I",
-  "thermodynamics": "Thermodynamics",
-  "waves-and-optics": "Waves And Optics"
+  "mathematical-methods-i": {
+    "title": "Mathematical Methods I",
+    "type": "folder"
+  },
+  "mathematical-methods-ii": {
+    "title": "Mathematical Methods Ii",
+    "type": "folder"
+  },
+  "practical-physics-and-computing-i": {
+    "title": "Practical Physics And Computing I",
+    "type": "folder"
+  },
+  "thermodynamics": {
+    "title": "Thermodynamics",
+    "type": "folder"
+  },
+  "waves-and-optics": {
+    "title": "Waves And Optics",
+    "type": "folder"
+  }
 }
